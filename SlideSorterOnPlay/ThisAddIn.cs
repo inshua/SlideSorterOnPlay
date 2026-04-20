@@ -104,7 +104,7 @@ namespace SlideSorterOnPlay
                         return CallNextHookEx(_hookID, code, wParam, lParam);
                     }
 
-                    if (msg.message == WM_KEYDOWN)
+                    if (msg.message == WM_KEYUP)
                     {
                         Keys key = (Keys)(int)msg.wParam;
                         Debug.WriteLine("Captured key: " + key);
@@ -113,24 +113,14 @@ namespace SlideSorterOnPlay
                         {
                             _slideShowWin.View.Exit();
                             return (IntPtr)1;
+                        } else if(key == Keys.Space)
+                        {
+                            if (edtWin != null && edtWin.Active != Office.MsoTriState.msoFalse)
+                            {
+                                GotoNextSlide();
+                            }
                         }
-                    } 
-                    //else if(msg.message == WM_CHAR){
-                    //    var now = DateTimeOffset.Now.ToUnixTimeMilliseconds();
-                    //    Debug.WriteLine("Char message time: " + now + ", lastKeyTime: " + lastKeyTime);
-                    //    if (now - lastKeyTime > 250)
-                    //    {
-                    //        // 防止按键连发
-                    //        lastKeyTime = now;
-                    //        char ch = (char)(int)msg.wParam;
-                    //        Debug.WriteLine("Captured char: " + ch);
-                    //        //if (ch == ' ')
-                    //        {
-                    //            GotoNextSlide();
-                    //            return (IntPtr)1;
-                    //        }
-                    //    }
-                    //}
+                    }                     
                 }
             }
             return CallNextHookEx(_hookID, code, wParam, lParam);
