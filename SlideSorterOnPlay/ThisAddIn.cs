@@ -109,16 +109,24 @@ namespace SlideSorterOnPlay
                         Keys key = (Keys)(int)msg.wParam;
                         Debug.WriteLine("Captured key: " + key);
 
-                        if (key == Keys.Escape)
+                        try
                         {
-                            _slideShowWin.View.Exit();
-                            return (IntPtr)1;
-                        } else if(key == Keys.Space)
-                        {
-                            if (edtWin != null && edtWin.Active != Office.MsoTriState.msoFalse)
+                            if (key == Keys.Escape)
                             {
-                                GotoNextSlide();
+                                _slideShowWin.View.Exit();
+                                return (IntPtr)1;
                             }
+                            else if (key == Keys.Space)
+                            {
+                                if (edtWin != null && edtWin.ViewType == PpViewType.ppViewSlideSorter && edtWin.Active != Office.MsoTriState.msoFalse)
+                                {
+                                    GotoNextSlide();
+                                }
+                            }
+                        }
+                        catch
+                        {
+
                         }
                     }                     
                 }
